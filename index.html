@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joaquín Castro Rivera | Centro de Enlaces</title>
+    <title>Joaquín Castro Rivera</title>
     <style>
         :root {
-            --bg-color: #090d16;
-            --card-bg: #111827;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent-blue: #38bdf8;
-            --accent-linkedin: #0077b5;
-            --border: #1f2937;
+            --bg-color: #fcfbfa; /* Fondo beige claro premium */
+            --text-main: #111111; /* Negro profundo para textos principales */
+            --text-muted: #666666; /* Gris oscuro para descripciones */
+            --border-color: #e5e5e3; /* Bordes sutiles tono arena */
+            --card-bg: #ffffff; /* Tarjetas blancas puras para generar contraste */
+            --accent-black: #000000;
         }
 
         body {
@@ -21,235 +20,280 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 750px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 60px 24px;
+            padding: 40px 20px;
         }
 
-        header {
-            padding: 40px 0 20px 0;
-            border-bottom: 1px solid var(--border);
+        /* Menú de Navegación Profesional */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 40px;
         }
 
-        .badge {
-            background-color: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: var(--accent-blue);
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
+        .logo {
+            font-weight: 700;
+            font-size: 1.1rem;
             letter-spacing: 0.05em;
-            display: inline-block;
         }
 
+        .nav-links button {
+            background: none;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            margin-left: 20px;
+            padding: 5px 0;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links button.active, .nav-links button:hover {
+            color: var(--text-main);
+            border-bottom: 2px solid var(--text-main);
+        }
+
+        /* Páginas ocultas por defecto */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Tipografías y Estilos Ejecutivos */
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin: 15px 0 10px 0;
             letter-spacing: -0.02em;
-            color: #ffffff;
+            margin: 0 0 10px 0;
         }
 
         .headline {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin: 20px 0 10px 0;
-            line-height: 1.4;
-        }
-
-        .sub-headline {
-            font-size: 1.05rem;
+            font-size: 1.35rem;
+            font-weight: 400;
             color: var(--text-muted);
+            line-height: 1.4;
             margin-bottom: 30px;
         }
 
-        .buttons-group {
+        .social-buttons {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            padding: 10px 20px;
-            border-radius: 6px;
+            padding: 10px 18px;
+            border-radius: 4px;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.2s ease;
         }
 
-        .btn-primary {
-            background-color: #ffffff;
-            color: var(--bg-color);
-            font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            background-color: #e5e7eb;
-        }
-
-        .btn-linkedin {
-            background-color: rgba(0, 119, 181, 0.1);
-            border: 1px solid var(--accent-linkedin);
-            color: #38a1db;
-        }
-
-        .btn-linkedin:hover {
-            background-color: var(--accent-linkedin);
+        .btn-black {
+            background-color: var(--accent-black);
             color: #ffffff;
+        }
+
+        .btn-black:hover {
+            background-color: #222222;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(0,0,0,0.03);
         }
 
         section {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         h2 {
-            font-size: 1.35rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 8px;
             margin-bottom: 20px;
-            letter-spacing: -0.01em;
         }
 
-        .grid {
+        /* Lista de Bloques Tipo Revista */
+        .article-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .article-item h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        .article-item p {
+            margin: 0 0 10px 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .meta-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888886;
+            font-weight: 600;
+        }
+
+        /* Estilos Tarjetas Afiliados */
+        .disclaimer-box {
+            background-color: var(--card-bg);
+            border-left: 3px solid var(--text-main);
+            border-top: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .product-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 16px;
         }
 
-        @media (min-width: 640px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        @media (min-width: 550px) {
+            .product-grid { grid-template-columns: 1fr 1fr; }
         }
 
-        .card {
+        .product-card {
             background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 24px;
-            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 4px;
             text-decoration: none;
             color: inherit;
+            transition: all 0.2s ease;
         }
 
-        .card:hover {
-            border-color: #374151;
-            transform: translateY(-2px);
-            background-color: #161e2e;
+        .product-card:hover {
+            border-color: var(--text-main);
+            background-color: #ffffff;
         }
 
-        .card h3 {
-            margin: 0 0 8px 0;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #ffffff;
+        .product-card h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.05rem;
         }
 
-        .card p {
-            margin: 0;
+        .product-card p {
+            margin: 0 0 15px 0;
             color: var(--text-muted);
             font-size: 0.9rem;
-            line-height: 1.5;
         }
 
-        .card-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--accent-blue);
-            margin-top: 15px;
-        }
-
-        .ml-tag {
-            color: #faca15;
+        .product-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: underline;
         }
 
         footer {
-            margin-top: 80px;
+            margin-top: 60px;
             padding-top: 20px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-color);
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.02em;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Encabezado Perfil Profesional -->
-        <header>
-            <span class="badge">Ingeniería Comercial</span>
-            <h1>Joaquín Castro Rivera</h1>
-            <p class="headline">Acá encuentras todo lo que necesitas de mí.</p>
-            <p class="sub-headline">Estudiante universitario orientado al análisis de mercados, la gestión de proyectos y las estrategias comerciales.</p>
-            
-            <div class="buttons-group">
-                <a href="mailto:contacto@jecr.cl" class="btn btn-primary">Contacto Directo</a>
-                <!-- REEMPLAZA EL LINK DE ABAJO CON TU ENLACE REAL DE LINKEDIN -->
-                <a href="https://www.linkedin.com/in/joaquin-castro-rivera-235592343?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="btn btn-linkedin">
-                    <svg style="width:16px; height:16px; margin-right:8px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93zM6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37z"/></svg>
-                    Conectar en LinkedIn
-                </a>
+        <!-- Navegación -->
+        <nav>
+            <div class="logo">JOAQUÍN CASTRO</div>
+            <div class="nav-links">
+                <button id="btn-inicio" class="active" onclick="switchPage('inicio')">Inicio</button>
+                <button id="btn-afiliados" onclick="switchPage('afiliados')">Mis Recomendados</button>
             </div>
-        </header>
+        </nav>
 
-        <!-- Sección de Contenidos y Blog -->
-        <section>
-            <h2>Líneas de Interés & Publicaciones</h2>
-            <div class="grid">
-                <div class="card">
+        <!-- PÁGINA 1: INICIO -->
+        <div id="page-inicio" class="page active">
+            <header>
+                <h1>Joaquín Castro Rivera</h1>
+                <p class="headline">Acá encuentras todo lo que necesitas de mí.</p>
+                
+                <div class="social-buttons">
+                    <a href="mailto:contacto@jecr.cl" class="btn btn-black">Contacto Directo</a>
+                    <!-- AGREGA TU LINK REAL DE LINKEDIN ENTRE LAS COMILLAS DE ABAJO -->
+                    <a href="https://linkedin.com" target="_blank" class="btn btn-outline">LinkedIn</a>
+                </div>
+            </header>
+
+            <section>
+                <h2>Intereses & Proyectos Académicos</h2>
+                
+                <div class="article-item">
+                    <span class="meta-tag">Ingeniería Comercial</span>
                     <h3>Análisis de Canales de Distribución</h3>
-                    <p>Revisiones sobre el comportamiento del consumidor y dinámicas del retail en el mercado nacional.</p>
-                    <span class="card-tag">Próximamente • Blog</span>
+                    <p>Revisiones y apuntes sobre el comportamiento del consumidor y dinámicas del retail en el mercado nacional.</p>
+                    <span class="meta-tag" style="color:var(--text-main);">Próximamente • Prácticas</span>
                 </div>
-                <div class="card">
-                    <h3>Estrategias Comerciales</h3>
-                    <p>Modelos de optimización aplicados e insights conceptuales desarrollados a lo largo de mi formación académica.</p>
-                    <span class="card-tag">Próximamente • Blog</span>
-                </div>
-            </div>
-        </section>
 
-        <!-- Sección de Afiliación / Mercado Libre -->
-        <section>
-            <h2>Productos y Herramientas Recomendadas</h2>
-            <p style="color: var(--text-muted); font-size: 0.95rem; margin:-5px 0 20px 0;">Una selección curada de dispositivos, lecturas y recursos esenciales para optimizar la productividad estudiantil y profesional.</p>
-            <div class="grid">
-                <!-- Tarjeta de Afiliado 1 -->
-                <!-- REEMPLAZA EL LINK DE ABAJO CON TU LINK DE AFILIADO DE MERCADO LIBRE -->
-                <a href="https://mercadolibre.cl" target="_blank" class="card">
-                    <h3>Ecosistema de Productividad</h3>
-                    <p>Accesorios de hardware y herramientas tecnológicas que utilizo de manera personal para potenciar el rendimiento diario.</p>
-                    <span class="card-tag ml-tag">Ver recomendaciones en Mercado Libre ↗</span>
+                <div class="article-item">
+                    <span class="meta-tag">Gestión Estratégica</span>
+                    <h3>Modelos Comerciales</h3>
+                    <p>Estructuras de optimización aplicadas e insights conceptuales desarrollados a lo largo de mi formación universitaria.</p>
+                    <span class="meta-tag" style="color:var(--text-main);">Próximamente • Blog</span>
+                </div>
+            </section>
+        </div>
+
+        <!-- PÁGINA 2: MIS RECOMENDADOS (AFILIADOS) -->
+        <div id="page-afiliados" class="page">
+            <h1>Mis Recomendados 🛒</h1>
+            <p class="headline" style="font-size: 1.15rem; margin-bottom: 20px;">Recursos esenciales para potenciar tu productividad y rendimiento.</p>
+
+            <!-- Tu propuesta de mensaje transparente mejorada estéticamente -->
+            <div class="disclaimer-box">
+                <strong>Transparencia:</strong> No poseo relaciones comerciales ni contratos exclusivos con estas marcas. Sin embargo, si decides adquirir alguno de estos productos sumándolo a tu carrito directamente a través de mis enlaces, recibiré una pequeña comisión por parte de la plataforma. Este apoyo es fundamental para financiar los servidores y continuar desarrollando los proyectos que comparto en este espacio.
+            </div>
+
+            <div class="product-grid">
+                <!-- Tarjeta Producto 1 -->
+                <!-- REEMPLAZA EL LINK DE ABAJO CON TU ENLACE DE AFILIADO DE MERCADO LIBRE -->
+                <a href="https://mercadolibre.cl" target="_blank" class="product-card">
+                    <h3>Ecosistema de Trabajo</h3>
+                    <p>Hardware, accesorios de escritorio y herramientas tecnológicas que uso personalmente para mis jornadas de estudio.</p>
+                    <span class="product-link">Ver en Mercado Libre ↗</span>
                 </a>
-                <!-- Tarjeta de Afiliado 2 -->
-                <!-- REEMPLAZA EL LINK DE ABAJO CON TU LINK DE AFILIADO DE MERCADO LIBRE -->
-                <a href="https://mercadolibre.cl" target="_blank" class="card">
+
+                <!-- Tarjeta Producto 2 -->
+                <!-- REEMPLAZA EL LINK DE ABAJO CON TU ENLACE DE AFILIADO DE MERCADO LIBRE -->
+                <a href="https://mercadolibre.cl" target="_blank" class="product-card">
                     <h3>Biblioteca de Negocios</h3>
-                    <p>Textos y lecturas fundamentales recomendadas para profundizar en los ámbitos de economía, marketing y administración.</p>
-                    <span class="card-tag ml-tag">Ver recomendaciones en Mercado Libre ↗</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- Pie de Página -->
-        <footer>
-            <p>© 2026 Joaquín Castro Rivera. Desarrollado en GitHub Pages a través de jecr.cl.</p>
-        </footer>
-    </div>
-
-</body>
-</html>
-
