@@ -45,12 +45,6 @@ h2{font:600 1.5rem var(--titulos);margin:48px 0 6px}
 .bajada{font-size:1.2rem;color:var(--suave);margin:0 0 28px;max-width:34em}
 .intro{color:var(--suave);margin:0 0 26px;max-width:36em}
 
-.herramientas{max-width:38em;border-top:1px solid var(--borde);margin-bottom:8px}
-.herramientas div{display:grid;gap:2px 24px;padding:14px 0;border-bottom:1px solid var(--borde)}
-.herramientas strong{font-weight:600}
-.herramientas span{color:var(--suave);font-size:.93rem}
-@media(min-width:600px){.herramientas div{grid-template-columns:170px 1fr}}
-
 .pagina{display:none}
 .pagina.activa{display:block}
 
@@ -66,6 +60,7 @@ button.btn{font:inherit;font-size:.92rem;font-weight:500;background:none;color:v
 /* Tarjetas */
 .grilla{display:grid;gap:16px;grid-template-columns:1fr}
 @media(min-width:600px){.grilla{grid-template-columns:1fr 1fr}}
+@media(min-width:600px){.intereses>:last-child:nth-child(odd){grid-column:1/-1}}
 .tarjeta{display:flex;flex-direction:column;background:var(--tarjeta);border:1px solid var(--borde);border-radius:4px;overflow:hidden;text-decoration:none}
 a.tarjeta:hover{border-color:var(--texto)}
 .tarjeta img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--borde)}
@@ -76,6 +71,8 @@ a.tarjeta:hover{border-color:var(--texto)}
 .cta{margin-top:auto;padding-top:10px;font-size:.88rem;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .precio{font-weight:600;font-size:.95rem}
 
+h2.sub{font-size:1.2rem;margin:38px 0 4px}
+.subtexto{color:var(--suave);font-size:.93rem;margin:0 0 14px;max-width:36em}
 .aviso{background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--acento);border-radius:4px;padding:16px 20px;color:var(--suave);font-size:.92rem;margin-bottom:26px}
 .vacio{color:var(--suave);border:1px dashed var(--borde);border-radius:4px;padding:26px;text-align:center;grid-column:1/-1}
 
@@ -115,16 +112,12 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
     <p class="correo">contacto@jecr.cl</p>
 
     <h2>Sobre mí</h2>
-    <p class="intro" style="max-width:38em">Voy en cuarto semestre y aprendo mejor haciendo. He diseñado una planilla de seguimiento para una empresa, desarrollado productos propios desde la receta hasta la etiqueta, y acompaño a una estética profesional en la construcción de su marca. Me interesa el punto donde un buen orden de datos, una idea clara y una buena presentación se juntan.</p>
-
-    <div class="herramientas">
-      <div><strong>Excel</strong><span>Planillas de registro y seguimiento de estados, pensadas para que otras personas las usen sin errores.</span></div>
-      <div><strong>Canva y Word</strong><span>Identidad visual, etiquetas, presentaciones y documentos ordenados.</span></div>
-      <div><strong>Inteligencia artificial</strong><span>La uso como complemento, no como reemplazo: me ayuda a programar y a avanzar en tareas extensas, y yo defino el criterio y reviso cada resultado.</span></div>
-    </div>
+    <p class="intro" style="max-width:38em">Voy en cuarto semestre y aprendo mejor haciendo. Me muevo entre lo analítico y lo creativo: ordeno datos en Excel para que una empresa sepa en qué etapa va cada trabajo, doy forma visual a las ideas, grabo y edito mis propios videos y armé este sitio desde cero.</p>
+    <p class="intro" style="max-width:38em">Esa misma mirada la llevo a lo que emprendo. Desarrollé productos propios desde la receta hasta la etiqueta y acompaño a una estética profesional en su marca, desde la identidad visual hasta las redes.</p>
+    <p class="intro" style="max-width:38em">Me apoyo en la inteligencia artificial como complemento, nunca como reemplazo: acelera la programación y las tareas largas, y yo pongo el criterio y reviso cada resultado. Me interesa el punto donde un buen orden de datos, una idea clara y una buena presentación se juntan.</p>
 
     <h2>Intereses</h2>
-    <div class="grilla" style="margin-top:16px">
+    <div class="grilla intereses" style="margin-top:16px">
       <div class="tarjeta"><div class="cuerpo">
         <h3>Economía, finanzas y datos</h3>
         <p>Me gusta entender cómo se mueven los números y convertirlos en decisiones.</p>
@@ -144,6 +137,10 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
       <div class="tarjeta"><div class="cuerpo">
         <h3>Jardinería y agronomía</h3>
         <p>Cultivar, probar y ver crecer las cosas.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Construcción y arreglos</h3>
+        <p>Me interesa cómo se planifica y levanta una obra, y disfruto resolver arreglos del día a día.</p>
       </div></div>
       <div class="tarjeta"><div class="cuerpo">
         <h3>Viajar</h3>
@@ -171,14 +168,15 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
   <section id="recomendados" class="pagina">
     <h1>Recomendados</h1>
     <p class="intro">Cosas que uso y que me sirven.</p>
-    <div class="aviso"><strong>Transparencia:</strong> no tengo contratos con estas marcas. Si compras desde mis enlaces, Mercado Libre me paga una pequeña comisión, sin costo extra para ti. Eso ayuda a financiar este sitio.</div>
-    <div class="grilla" data-lista="productos"></div>
+    <div class="aviso"><strong>Transparencia:</strong> no tengo contratos con estas marcas. Si compras desde mis enlaces, la tienda me paga una pequeña comisión, sin costo extra para ti. Eso ayuda a financiar este sitio.</div>
+    <div id="productos"></div>
   </section>
 
   <!-- BLOQUE: LIBRERÍA -->
   <section id="libreria" class="pagina">
     <h1>Librería</h1>
     <p class="intro">Libros que recomiendo.</p>
+    <div class="aviso"><strong>Transparencia:</strong> algunos enlaces pueden ser de afiliado. Si compras desde ellos, la tienda me paga una pequeña comisión, sin costo extra para ti.</div>
     <div class="grilla" data-lista="libros"></div>
   </section>
   </main>
@@ -197,6 +195,16 @@ const CONFIG = {
   youtubeCanal: "https://youtube.com",       // pega el link de tu canal
 };
 
+// Categorías de "Recomendados", en el orden en que aparecen. "texto" es la frase que va bajo el título.
+// Puedes agregar, quitar o renombrar (si renombras una, cambia también el campo categoria de sus productos).
+const CATEGORIAS = [
+  { nombre: "Escritorio", texto: "Lo que me hace sentir cómodo y más productivo cuando me siento frente a la pantalla." },
+  { nombre: "Grabación y audio", texto: "No soy ningún experto, pero esto es lo que uso para producir mi contenido audiovisual." },
+  { nombre: "Cocina", texto: "Me gusta cocinar, y estas cosas me hacen mucho más fácil meter las manos en la masa." },
+  { nombre: "Tecnología", texto: "Dispositivos que uso a diario y que me ayudan a estudiar, crear y mantenerme conectado." },
+  { nombre: "Construcción y jardinería", texto: "Una gran ayuda a la hora de ponerse el overol." },
+];
+
 const CONTENIDO = {
 
   // PORTAFOLIO — link es opcional (déjalo "" si no tiene)
@@ -213,15 +221,20 @@ const CONTENIDO = {
 
   // PRODUCTOS AFILIADOS — link = tu enlace de afiliado de Mercado Libre
   // imagen y precio son opcionales
-  // Ideas de categorías según tus intereses: equipo para grabar y editar, accesorios de batería, herramientas de jardinería, equipo para viajar, accesorios de estudio
+  // "categoria" debe ser exactamente una de las de CATEGORIAS (arriba). Las categorías sin productos no se muestran.
+  // Los 5 ejemplos de abajo son de relleno: reemplázalos por tus productos reales.
   productos: [
-    { titulo: "Ecosistema de trabajo", etiqueta: "Tecnología", descripcion: "Accesorios y herramientas que uso en mis jornadas de estudio.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-    { titulo: "Biblioteca de negocios", etiqueta: "Libros", descripcion: "Libros de negocios disponibles en Mercado Libre.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { categoria: "Construcción y jardinería", titulo: "Herramienta de ejemplo", descripcion: "Describe para qué la usas.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { categoria: "Escritorio", titulo: "Accesorio de escritorio de ejemplo", descripcion: "Describe cómo mejora tu espacio de estudio.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { categoria: "Grabación y audio", titulo: "Equipo de grabación de ejemplo", descripcion: "Describe qué grabas con él.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { categoria: "Cocina", titulo: "Utensilio de cocina de ejemplo", descripcion: "Describe qué preparas con él.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { categoria: "Tecnología", titulo: "Dispositivo de ejemplo", descripcion: "Describe cómo lo usas a diario.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
   ],
 
   // LIBROS — link puede ser Mercado Libre, Buscalibre, etc.
   libros: [
-    // { titulo: "Nombre del libro", autor: "Autor", nota: "Por qué lo recomiendo.", link: "https://..." },
+    // tienda es opcional: "Mercado Libre", "Buscalibre", etc. Aparece en el botón de la tarjeta.
+    // { titulo: "Nombre del libro", autor: "Autor", nota: "Por qué lo recomiendo.", link: "https://...", tienda: "Buscalibre" },
   ],
 };
 
@@ -260,8 +273,8 @@ const PLANTILLAS = {
       <h3>${esc(i.titulo)}</h3>
       <span class="etiqueta">${esc(i.autor)}</span>
       <p>${esc(i.nota)}</p>
-      ${i.link ? `<span class="cta">Ver libro</span>` : ""}
-    </div>`, true),
+      ${i.link ? `<span class="cta">${i.tienda ? "Ver en " + esc(i.tienda) : "Ver libro"}</span>` : ""}
+    </div>`, true, true),
 };
 
 // Si hay link, la tarjeta completa es un enlace; "afiliado" agrega rel="sponsored"
@@ -269,6 +282,19 @@ function tarjeta(link, html, externo = false, afiliado = false) {
   if (!link) return `<div class="tarjeta">${html}</div>`;
   const rel = afiliado ? "sponsored noopener noreferrer" : "noopener noreferrer";
   return `<a class="tarjeta" href="${esc(link)}" target="_blank" rel="${rel}">${html}</a>`;
+}
+
+// Recomendados: un subtítulo por categoría; las vacías no se muestran
+function dibujarProductos() {
+  const cont = document.getElementById("productos");
+  const items = CONTENIDO.productos || [];
+  const nombres = CATEGORIAS.map(c => c.nombre);
+  const grupos = [...CATEGORIAS, { nombre: "Otros", texto: "" }]
+    .map(c => [c, items.filter(i => c.nombre === "Otros" ? !nombres.includes(i.categoria) : i.categoria === c.nombre)])
+    .filter(([, lista]) => lista.length);
+  cont.innerHTML = grupos.length
+    ? grupos.map(([c, lista]) => `<h2 class="sub">${esc(c.nombre)}</h2>${c.texto ? `<p class="subtexto">${esc(c.texto)}</p>` : ""}<div class="grilla">${lista.map(PLANTILLAS.productos).join("")}</div>`).join("")
+    : `<div class="vacio">Pronto habrá contenido aquí.</div>`;
 }
 
 function dibujarListas() {
@@ -317,6 +343,7 @@ document.getElementById("linkedin").href = CONFIG.linkedin;
 document.getElementById("canal").href = CONFIG.youtubeCanal;
 document.getElementById("anio").textContent = new Date().getFullYear();
 dibujarListas();
+dibujarProductos();
 mostrar();
 </script>
 </body>
