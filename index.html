@@ -1,299 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joaquín Castro Rivera</title>
-    <style>
-        :root {
-            --bg-color: #fcfbfa; /* Fondo beige claro premium */
-            --text-main: #111111; /* Negro profundo para textos principales */
-            --text-muted: #666666; /* Gris oscuro para descripciones */
-            --border-color: #e5e5e3; /* Bordes sutiles tono arena */
-            --card-bg: #ffffff; /* Tarjetas blancas puras para generar contraste */
-            --accent-black: #000000;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joaquín Castro Rivera</title>
+<meta name="description" content="Estudiante de Ingeniería Comercial. Portafolio, vlogs, recomendados y librería.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+<style>
+/* ============ 1. COLORES Y TIPOGRAFÍA (cambia aquí el look completo) ============ */
+:root{
+  --fondo:#fcfbfa;      /* beige claro */
+  --tarjeta:#ffffff;
+  --texto:#161616;
+  --suave:#6b6b68;
+  --borde:#e6e3df;
+  --acento:#b3203a;     /* carmesí, solo detalles mínimos */
+  --p1:#F8B195; --p2:#F67280; --p3:#C06C84; --p4:#6C5B7B; --p5:#355C7D;
+  --titulos:"Newsreader", Georgia, serif;
+  --cuerpo:"Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+}
 
-        .container {
-            max-width: 680px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+/* ============ 2. ESTRUCTURA ============ */
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:400 1rem/1.65 var(--cuerpo)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p5);outline-offset:3px}
+.contenedor{max-width:760px;margin:0 auto;padding:0 22px 48px}
 
-        /* Menú de Navegación Profesional */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-        }
+/* Franja de la paleta: el único toque de color grande */
+.franja{height:4px;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3),var(--p4),var(--p5))}
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 0.05em;
-        }
+nav{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;justify-content:space-between;padding:22px 0;margin-bottom:44px;border-bottom:1px solid var(--borde)}
+.marca{font:600 1.15rem var(--titulos);text-decoration:none}
+.enlaces a{font-size:.92rem;color:var(--suave);text-decoration:none;margin-right:18px;padding-bottom:3px}
+.enlaces a:last-child{margin-right:0}
+.enlaces a:hover{color:var(--texto)}
+.enlaces a.activo{color:var(--texto);border-bottom:2px solid var(--acento)}
 
-        .nav-links button {
-            background: none;
-            border: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            cursor: pointer;
-            margin-left: 20px;
-            padding: 5px 0;
-            transition: color 0.2s ease;
-        }
+h1{font:600 clamp(2.1rem,6vw,3rem)/1.1 var(--titulos);letter-spacing:-.02em;margin:0 0 14px}
+h2{font:600 1.5rem var(--titulos);margin:48px 0 6px}
+.bajada{font-size:1.2rem;color:var(--suave);margin:0 0 28px;max-width:34em}
+.intro{color:var(--suave);margin:0 0 26px;max-width:36em}
 
-        .nav-links button.active, .nav-links button:hover {
-            color: var(--text-main);
-            border-bottom: 2px solid var(--text-main);
-        }
+.herramientas{max-width:38em;border-top:1px solid var(--borde);margin-bottom:8px}
+.herramientas div{display:grid;gap:2px 24px;padding:14px 0;border-bottom:1px solid var(--borde)}
+.herramientas strong{font-weight:600}
+.herramientas span{color:var(--suave);font-size:.93rem}
+@media(min-width:600px){.herramientas div{grid-template-columns:170px 1fr}}
 
-        /* Páginas ocultas por defecto */
-        .page {
-            display: none;
-        }
+.pagina{display:none}
+.pagina.activa{display:block}
 
-        .page.active {
-            display: block;
-        }
+/* Botones */
+.botones{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.btn{display:inline-block;padding:10px 18px;border-radius:4px;font-size:.92rem;font-weight:500;text-decoration:none;border:1px solid var(--texto)}
+button.btn{font:inherit;font-size:.92rem;font-weight:500;background:none;color:var(--texto);cursor:pointer}
+.correo{color:var(--suave);font-size:.9rem;margin:0;user-select:all}
+.btn.negro{background:var(--texto);color:#fff}
+.btn.negro:hover{background:var(--acento);border-color:var(--acento)}
+.btn.borde:hover{background:var(--texto);color:#fff}
 
-        /* Tipografías y Estilos Ejecutivos */
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin: 0 0 10px 0;
-        }
+/* Tarjetas */
+.grilla{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:600px){.grilla{grid-template-columns:1fr 1fr}}
+.tarjeta{display:flex;flex-direction:column;background:var(--tarjeta);border:1px solid var(--borde);border-radius:4px;overflow:hidden;text-decoration:none}
+a.tarjeta:hover{border-color:var(--texto)}
+.tarjeta img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--borde)}
+.tarjeta .cuerpo{padding:18px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.tarjeta h3{font:600 1.1rem/1.3 var(--titulos);margin:0}
+.tarjeta p{margin:0;color:var(--suave);font-size:.93rem}
+.etiqueta{font-size:.78rem;color:var(--p5);font-weight:500}
+.cta{margin-top:auto;padding-top:10px;font-size:.88rem;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.precio{font-weight:600;font-size:.95rem}
 
-        .headline {
-            font-size: 1.35rem;
-            font-weight: 400;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 30px;
-        }
+.aviso{background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--acento);border-radius:4px;padding:16px 20px;color:var(--suave);font-size:.92rem;margin-bottom:26px}
+.vacio{color:var(--suave);border:1px dashed var(--borde);border-radius:4px;padding:26px;text-align:center;grid-column:1/-1}
 
-        .social-buttons {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-align:center;color:var(--suave);font-size:.82rem}
 
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 18px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .btn-black {
-            background-color: var(--accent-black);
-            color: #ffffff;
-        }
-
-        .btn-black:hover {
-            background-color: #222222;
-        }
-
-        .btn-outline {
-            border: 1px solid var(--text-main);
-            color: var(--text-main);
-        }
-
-        .btn-outline:hover {
-            background-color: rgba(0,0,0,0.03);
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        h2 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-bottom: 1px solid var(--text-main);
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-        }
-
-        /* Lista de Bloques Tipo Revista */
-        .article-item {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .article-item h3 {
-            margin: 0 0 6px 0;
-            font-size: 1.15rem;
-            font-weight: 600;
-        }
-
-        .article-item p {
-            margin: 0 0 10px 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .meta-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #888886;
-            font-weight: 600;
-        }
-
-        /* Estilos Tarjetas Afiliados */
-        .disclaimer-box {
-            background-color: var(--card-bg);
-            border-left: 3px solid var(--text-main);
-            border-top: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        @media (min-width: 550px) {
-            .product-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        .product-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .product-card:hover {
-            border-color: var(--text-main);
-            background-color: #ffffff;
-        }
-
-        .product-card h3 {
-            margin: 0 0 6px 0;
-            font-size: 1.05rem;
-        }
-
-        .product-card p {
-            margin: 0 0 15px 0;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .product-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
-        footer {
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            letter-spacing: 0.02em;
-        }
-    </style>
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
+
 <body>
+<div class="franja"></div>
+<div class="contenedor">
 
-    <div class="container">
-        <!-- Navegación -->
-        <nav>
-            <div class="logo">JOAQUÍN CASTRO</div>
-            <div class="nav-links">
-                <button id="btn-inicio" class="active" onclick="switchPage('inicio')">Inicio</button>
-                <button id="btn-afiliados" onclick="switchPage('afiliados')">Mis Recomendados</button>
-            </div>
-        </nav>
+  <nav>
+    <a class="marca" href="#inicio">Joaquín Castro</a>
+    <div class="enlaces" id="menu">
+      <a href="#inicio">Inicio</a>
+      <a href="#portafolio">Portafolio</a>
+      <a href="#vlogs">Vlogs</a>
+      <a href="#recomendados">Recomendados</a>
+      <a href="#libreria">Librería</a>
+    </div>
+  </nav>
 
-        <!-- PÁGINA 1: INICIO -->
-        <div id="page-inicio" class="page active">
-            <header>
-                <h1>Joaquín Castro Rivera</h1>
-                <p class="headline">Acá encuentras todo lo que necesitas de mí.</p>
-                
-                <div class="social-buttons">
-                    <a href="mailto:contacto@jecr.cl" class="btn btn-black">Contacto Directo</a>
-                    <!-- AGREGA TU LINK REAL DE LINKEDIN ENTRE LAS COMILLAS DE ABAJO -->
-                    <a href="https://linkedin.com" target="_blank" class="btn btn-outline">LinkedIn</a>
-                </div>
-            </header>
+  <!-- ============ 3. BLOQUES DE PÁGINA (uno por sección) ============ -->
 
-            <section>
-                <h2>Intereses & Proyectos Académicos</h2>
-                
-                <div class="article-item">
-                    <span class="meta-tag">Ingeniería Comercial</span>
-                    <h3>Análisis de Canales de Distribución</h3>
-                    <p>Revisiones y apuntes sobre el comportamiento del consumidor y dinámicas del retail en el mercado nacional.</p>
-                    <span class="meta-tag" style="color:var(--text-main);">Próximamente • Prácticas</span>
-                </div>
+  <!-- BLOQUE: INICIO -->
+  <main>
+  <section id="inicio" class="pagina">
+    <h1>Joaquín Castro Rivera</h1>
+    <p class="bajada">Estudio Ingeniería Comercial y me muevo entre los datos, el emprendimiento y el contenido audiovisual. Acá comparto lo que hago, lo que grabo y lo que recomiendo.</p>
+    <div class="botones">
+      <a class="btn negro" href="mailto:contacto@jecr.cl">Escríbeme</a>
+      <button class="btn borde" type="button" id="copiar">Copiar correo</button>
+      <a class="btn borde" href="https://linkedin.com" target="_blank" rel="noopener" id="linkedin">LinkedIn</a>
+    </div>
+    <p class="correo">contacto@jecr.cl</p>
 
-                <div class="article-item">
-                    <span class="meta-tag">Gestión Estratégica</span>
-                    <h3>Modelos Comerciales</h3>
-                    <p>Estructuras de optimización aplicadas e insights conceptuales desarrollados a lo largo de mi formación universitaria.</p>
-                    <span class="meta-tag" style="color:var(--text-main);">Próximamente • Blog</span>
-                </div>
-            </section>
-        </div>
+    <h2>Sobre mí</h2>
+    <p class="intro" style="max-width:38em">Voy en cuarto semestre y aprendo mejor haciendo. He diseñado una planilla de seguimiento para una empresa, desarrollado productos propios desde la receta hasta la etiqueta, y acompaño a una estética profesional en la construcción de su marca. Me interesa el punto donde un buen orden de datos, una idea clara y una buena presentación se juntan.</p>
 
-        <!-- PÁGINA 2: MIS RECOMENDADOS (AFILIADOS) -->
-        <div id="page-afiliados" class="page">
-            <h1>Mis Recomendados 🛒</h1>
-            <p class="headline" style="font-size: 1.15rem; margin-bottom: 20px;">Recursos esenciales para potenciar tu productividad y rendimiento.</p>
+    <div class="herramientas">
+      <div><strong>Excel</strong><span>Planillas de registro y seguimiento de estados, pensadas para que otras personas las usen sin errores.</span></div>
+      <div><strong>Canva y Word</strong><span>Identidad visual, etiquetas, presentaciones y documentos ordenados.</span></div>
+      <div><strong>Inteligencia artificial</strong><span>La uso como complemento, no como reemplazo: me ayuda a programar y a avanzar en tareas extensas, y yo defino el criterio y reviso cada resultado.</span></div>
+    </div>
 
-            <!-- Tu propuesta de mensaje transparente mejorada estéticamente -->
-            <div class="disclaimer-box">
-                <strong>Transparencia:</strong> No poseo relaciones comerciales ni contratos exclusivos con estas marcas. Sin embargo, si decides adquirir alguno de estos productos sumándolo a tu carrito directamente a través de mis enlaces, recibiré una pequeña comisión por parte de la plataforma. Este apoyo es fundamental para financiar los servidores y continuar desarrollando los proyectos que comparto en este espacio.
-            </div>
+    <h2>Intereses</h2>
+    <div class="grilla" style="margin-top:16px">
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Economía, finanzas y datos</h3>
+        <p>Me gusta entender cómo se mueven los números y convertirlos en decisiones.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Emprendimiento</h3>
+        <p>Probar ideas pequeñas, venderlas y aprender de lo que pasa.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Contenido audiovisual</h3>
+        <p>Grabo y edito videos de lo que vivo, en mi canal de YouTube.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Batería</h3>
+        <p>Soy percusionista, principalmente baterista.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Jardinería y agronomía</h3>
+        <p>Cultivar, probar y ver crecer las cosas.</p>
+      </div></div>
+      <div class="tarjeta"><div class="cuerpo">
+        <h3>Viajar</h3>
+        <p>Conocer lugares distintos y registrarlos.</p>
+      </div></div>
+    </div>
+  </section>
 
-            <div class="product-grid">
-                <!-- Tarjeta Producto 1 -->
-                <!-- REEMPLAZA EL LINK DE ABAJO CON TU ENLACE DE AFILIADO DE MERCADO LIBRE -->
-                <a href="https://mercadolibre.cl" target="_blank" class="product-card">
-                    <h3>Ecosistema de Trabajo</h3>
-                    <p>Hardware, accesorios de escritorio y herramientas tecnológicas que uso personalmente para mis jornadas de estudio.</p>
-                    <span class="product-link">Ver en Mercado Libre ↗</span>
-                </a>
+  <!-- BLOQUE: PORTAFOLIO -->
+  <section id="portafolio" class="pagina">
+    <h1>Portafolio</h1>
+    <p class="intro">Trabajos académicos, análisis y proyectos.</p>
+    <div class="grilla" data-lista="portafolio"></div>
+  </section>
 
-                <!-- Tarjeta Producto 2 -->
-                <!-- REEMPLAZA EL LINK DE ABAJO CON TU ENLACE DE AFILIADO DE MERCADO LIBRE -->
-                <a href="https://mercadolibre.cl" target="_blank" class="product-card">
-                    <h3>Biblioteca de Negocios</h3>
+  <!-- BLOQUE: VLOGS -->
+  <section id="vlogs" class="pagina">
+    <h1>Vlogs</h1>
+    <p class="intro">Mi canal de YouTube: viajes, salidas y lo que vivo en el día a día. Lo hago por hobby.</p>
+    <div class="botones"><a class="btn borde" id="canal" href="https://youtube.com" target="_blank" rel="noopener">Ir al canal</a></div>
+    <div class="grilla" style="margin-top:18px" data-lista="vlogs"></div>
+  </section>
+
+  <!-- BLOQUE: RECOMENDADOS (afiliados) -->
+  <section id="recomendados" class="pagina">
+    <h1>Recomendados</h1>
+    <p class="intro">Cosas que uso y que me sirven.</p>
+    <div class="aviso"><strong>Transparencia:</strong> no tengo contratos con estas marcas. Si compras desde mis enlaces, Mercado Libre me paga una pequeña comisión, sin costo extra para ti. Eso ayuda a financiar este sitio.</div>
+    <div class="grilla" data-lista="productos"></div>
+  </section>
+
+  <!-- BLOQUE: LIBRERÍA -->
+  <section id="libreria" class="pagina">
+    <h1>Librería</h1>
+    <p class="intro">Libros que recomiendo.</p>
+    <div class="grilla" data-lista="libros"></div>
+  </section>
+  </main>
+
+  <footer>© <span id="anio"></span> Joaquín Castro Rivera · jecr.cl</footer>
+</div>
+
+<script>
+/* ==========================================================================
+   4. TU CONTENIDO — AQUÍ ES DONDE AGREGAS COSAS
+   Para agregar algo: copia una línea { ... }, pégala debajo y cambia los textos.
+   Para quitar algo: borra su línea. Cada línea termina con coma.
+   ========================================================================== */
+const CONFIG = {
+  linkedin: "https://linkedin.com",          // pega tu LinkedIn real
+  youtubeCanal: "https://youtube.com",       // pega el link de tu canal
+};
+
+const CONTENIDO = {
+
+  // PORTAFOLIO — link es opcional (déjalo "" si no tiene)
+  portafolio: [
+    { titulo: "Planilla de seguimiento en Excel", etiqueta: "Proyecto para una empresa", descripcion: "Programé una planilla para registrar ingresos de forma simple y ver qué trabajos estaban iniciados, en proceso o terminados.", link: "" },
+    { titulo: "Marca y redes para una estética profesional", etiqueta: "Marca personal", descripcion: "Construyo su identidad y sus redes sociales. Ya compré su dominio y su página web viene próximamente.", link: "" },
+    { titulo: "Productos propios", etiqueta: "Emprendimiento", descripcion: "Elaboro, envaso y presento mis propios productos, desde mermeladas con etiqueta y logo diseñados por mí, que se vendieron en dos días, hasta bombones de chocolate.", link: "" },
+  ],
+
+  // VLOGS — pega el link normal de YouTube; la miniatura se saca sola
+  vlogs: [
+    // { titulo: "Mi primer vlog", descripcion: "De qué trata.", link: "https://www.youtube.com/watch?v=XXXXXXXXXXX" },
+  ],
+
+  // PRODUCTOS AFILIADOS — link = tu enlace de afiliado de Mercado Libre
+  // imagen y precio son opcionales
+  // Ideas de categorías según tus intereses: equipo para grabar y editar, accesorios de batería, herramientas de jardinería, equipo para viajar, accesorios de estudio
+  productos: [
+    { titulo: "Ecosistema de trabajo", etiqueta: "Tecnología", descripcion: "Accesorios y herramientas que uso en mis jornadas de estudio.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+    { titulo: "Biblioteca de negocios", etiqueta: "Libros", descripcion: "Libros de negocios disponibles en Mercado Libre.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
+  ],
+
+  // LIBROS — link puede ser Mercado Libre, Buscalibre, etc.
+  libros: [
+    // { titulo: "Nombre del libro", autor: "Autor", nota: "Por qué lo recomiendo.", link: "https://..." },
+  ],
+};
+
+/* ==========================================================================
+   5. MOTOR (no necesitas tocar nada de aquí hacia abajo)
+   ========================================================================== */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const idYouTube = u => (String(u).match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/) || [])[1];
+
+// Cada tipo de contenido tiene su plantilla de tarjeta
+const PLANTILLAS = {
+  portafolio: i => tarjeta(i.link, `
+    <div class="cuerpo">
+      ${i.etiqueta ? `<span class="etiqueta">${esc(i.etiqueta)}</span>` : ""}
+      <h3>${esc(i.titulo)}</h3><p>${esc(i.descripcion)}</p>
+      ${i.link ? `<span class="cta">Ver proyecto</span>` : ""}
+    </div>`),
+
+  vlogs: i => {
+    const id = idYouTube(i.link);
+    const img = id ? `<img loading="lazy" src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="Miniatura de ${esc(i.titulo)}">` : "";
+    return tarjeta(i.link, `${img}<div class="cuerpo"><h3>${esc(i.titulo)}</h3><p>${esc(i.descripcion)}</p><span class="cta">Ver en YouTube</span></div>`, true);
+  },
+
+  productos: i => tarjeta(i.link, `
+    ${i.imagen ? `<img loading="lazy" src="${esc(i.imagen)}" alt="${esc(i.titulo)}">` : ""}
+    <div class="cuerpo">
+      ${i.etiqueta ? `<span class="etiqueta">${esc(i.etiqueta)}</span>` : ""}
+      <h3>${esc(i.titulo)}</h3><p>${esc(i.descripcion)}</p>
+      ${i.precio ? `<span class="precio">${esc(i.precio)}</span>` : ""}
+      <span class="cta">Ver en Mercado Libre</span>
+    </div>`, true, true),
+
+  libros: i => tarjeta(i.link, `
+    <div class="cuerpo">
+      <h3>${esc(i.titulo)}</h3>
+      <span class="etiqueta">${esc(i.autor)}</span>
+      <p>${esc(i.nota)}</p>
+      ${i.link ? `<span class="cta">Ver libro</span>` : ""}
+    </div>`, true),
+};
+
+// Si hay link, la tarjeta completa es un enlace; "afiliado" agrega rel="sponsored"
+function tarjeta(link, html, externo = false, afiliado = false) {
+  if (!link) return `<div class="tarjeta">${html}</div>`;
+  const rel = afiliado ? "sponsored noopener noreferrer" : "noopener noreferrer";
+  return `<a class="tarjeta" href="${esc(link)}" target="_blank" rel="${rel}">${html}</a>`;
+}
+
+function dibujarListas() {
+  document.querySelectorAll("[data-lista]").forEach(cont => {
+    const tipo = cont.dataset.lista;
+    const items = CONTENIDO[tipo] || [];
+    cont.innerHTML = items.length
+      ? items.map(PLANTILLAS[tipo]).join("")
+      : `<div class="vacio">Pronto habrá contenido aquí.</div>`;
+  });
+}
+
+// Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
+function mostrar(idPedido) {
+  let id = idPedido;
+  if (!id) { try { id = location.hash.slice(1); } catch (e) {} }
+  id = id || "inicio";
+  const existe = document.getElementById(id);
+  const destino = existe && existe.classList.contains("pagina") ? id : "inicio";
+  document.querySelectorAll(".pagina").forEach(p => p.classList.toggle("activa", p.id === destino));
+  document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("activo", a.getAttribute("href") === "#" + destino));
+  window.scrollTo(0, 0);
+  return destino;
+}
+
+// Clic en cualquier enlace interno (#portafolio, #vlogs, etc.): cambia de sección directamente
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  e.preventDefault();
+  const destino = mostrar(a.getAttribute("href").slice(1));
+  try { history.pushState(null, "", "#" + destino); } catch (err) {} // actualiza la URL si el navegador lo permite
+});
+window.addEventListener("popstate", () => mostrar());
+window.addEventListener("hashchange", () => mostrar());
+
+// Botón copiar correo (por si tu computador no tiene app de correo configurada)
+document.getElementById("copiar").addEventListener("click", async e => {
+  const btn = e.currentTarget, correo = "contacto@jecr.cl";
+  try { await navigator.clipboard.writeText(correo); btn.textContent = "¡Copiado!"; }
+  catch (err) { btn.textContent = "Copia: " + correo; }
+  setTimeout(() => btn.textContent = "Copiar correo", 2500);
+});
+
+document.getElementById("linkedin").href = CONFIG.linkedin;
+document.getElementById("canal").href = CONFIG.youtubeCanal;
+document.getElementById("anio").textContent = new Date().getFullYear();
+dibujarListas();
+mostrar();
+</script>
+</body>
+</html>
