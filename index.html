@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Joaquín Castro Rivera</title>
 <meta name="description" content="Estudiante de Ingeniería Comercial. Portafolio, vlogs, recomendados y librería.">
+<link rel="icon" type="image/svg+xml" href="jecr-icono.svg">
+<link rel="apple-touch-icon" href="jecr-avatar.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -34,8 +36,9 @@ a{color:inherit}
 /* Franja de la paleta: el único toque de color grande */
 .franja{height:4px;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3),var(--p4),var(--p5))}
 
-nav{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;justify-content:space-between;padding:22px 0;margin-bottom:44px;border-bottom:1px solid var(--borde)}
-.marca{font:600 1.15rem var(--titulos);text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;justify-content:space-between;padding:22px 0;margin-bottom:44px;border-bottom:1px solid var(--borde)}
+.marca{display:inline-flex;align-items:center;color:var(--texto);text-decoration:none}
+.marca svg{height:34px;width:auto;display:block}
 .enlaces a{font-size:.92rem;color:var(--suave);text-decoration:none;margin-right:18px;padding-bottom:3px}
 .enlaces a:last-child{margin-right:0}
 .enlaces a:hover{color:var(--texto)}
@@ -85,6 +88,16 @@ h2.sub{font-size:1.2rem;margin:38px 0 4px}
 .cat .subtexto{margin:4px 0 16px}
 .volver{display:inline-block;font-size:.9rem;font-weight:600;text-underline-offset:3px}
 .subtexto{color:var(--suave);font-size:.93rem;margin:0 0 14px;max-width:36em}
+.widgets{display:grid;gap:12px;margin-top:16px}
+.widget{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--c);border-radius:4px;text-decoration:none}
+.widget:hover{border-color:var(--texto);border-left-color:var(--c)}
+.widget div{flex:1;min-width:0}
+.widget strong{display:block;font:600 1.05rem var(--titulos)}
+.widget span{color:var(--suave);font-size:.92rem}
+.widget em{font-style:normal;font-size:.8rem;color:var(--suave);white-space:nowrap}
+.widget i{font-style:normal;font-size:1.2rem;transition:transform .2s}
+.widget:hover i{transform:translateX(4px)}
+@media(max-width:560px){.widget em{display:none}}
 .aviso{background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--acento);border-radius:4px;padding:16px 20px;color:var(--suave);font-size:.92rem;margin-bottom:26px}
 .vacio{color:var(--suave);border:1px dashed var(--borde);border-radius:4px;padding:26px;text-align:center;grid-column:1/-1}
 
@@ -99,7 +112,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
 <div class="contenedor">
 
   <nav>
-    <a class="marca" href="#inicio">Joaquín Castro</a>
+    <a class="marca" href="#inicio" aria-label="jecr, ir al inicio"><svg viewBox="0 0 200.6 112.0" role="img" aria-label="jecr"><path d="M36.3 84.6Q36.3 94.7 30.8 100.4Q25.3 106 15.3 106Q10.5 106 6 105V92.9H9.4L11.8 99.1Q13.1 100.1 14.4 100.1Q17.3 100.1 19 96.5Q20.7 92.9 20.7 86.3V37.3L11.8 35.5V31.9H36.3Z M72.4 30.7Q82.7 30.7 87.3 36.2Q91.9 41.6 91.9 53.2V57.6H65.3V58.5Q65.3 66.5 66.6 69.9Q67.9 73.3 70.8 75.1Q73.7 76.9 78.8 76.9Q83.5 76.9 90.8 75.3V79.5Q87.8 81.2 83.1 82.4Q78.4 83.5 73.9 83.5Q61.5 83.5 55.5 77.1Q49.6 70.6 49.6 56.9Q49.6 43.7 55.2 37.2Q60.9 30.7 72.4 30.7Z M71.8 36.1Q68.6 36.1 67 39.6Q65.4 43.1 65.4 52H77.1Q77.1 44.8 76.7 41.8Q76.2 38.9 75 37.5Q73.9 36.1 71.8 36.1Z M143.1 79.5Q140.7 81.4 136.4 82.5Q132.1 83.5 127.6 83.5Q114.1 83.5 107.4 77Q100.7 70.5 100.7 57.1Q100.7 48.8 103.7 42.8Q106.8 36.9 112.4 33.7Q118.1 30.6 125.5 30.6Q133.1 30.6 142 32.4V47.4H138.1L135.8 38.5Q134 37.2 132.2 36.6Q130.4 36.1 127.5 36.1Q124.4 36.1 121.8 38.6Q119.2 41.2 117.8 45.8Q116.3 50.4 116.3 56.8Q116.3 67.6 119.7 72.2Q123.1 76.9 130.4 76.9Q137.8 76.9 143.1 75.3Z M172.8 42.4Q178.6 35.9 183.2 33.1Q187.9 30.3 191.7 30.3H194.6V48.8H191.6L188.4 42Q185 42 180.7 43.5Q176.4 44.9 173.1 46.9V77.7L181.2 79V82.5H151V79L157.5 77.7V36.7L151 35.5V31.9H172.2Z" fill="currentColor"/><path d="M36.7 14.2Q36.7 17.7 34.3 20.1Q31.9 22.5 28.5 22.5Q25 22.5 22.6 20.1Q20.2 17.7 20.2 14.2Q20.2 10.8 22.6 8.4Q25 6 28.5 6Q31.8 6 34.3 8.4Q36.7 10.8 36.7 14.2Z" fill="var(--acento)"/></svg></a>
     <div class="enlaces" id="menu">
       <a href="#inicio">Inicio</a>
       <a href="#portafolio">Portafolio</a>
@@ -158,6 +171,22 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
         <h3>Viajar</h3>
         <p>Conocer lugares distintos y registrarlos.</p>
       </div></div>
+    </div>
+
+    <h2>Explora</h2>
+    <div class="widgets">
+      <a class="widget" style="--c:var(--p2)" href="#recomendados">
+        <div><strong>Lo que uso y recomiendo</strong><span>Productos que me sirven en el día a día, con enlaces directos a Mercado Libre.</span></div>
+        <em id="meta-recomendados"></em><i aria-hidden="true">→</i>
+      </a>
+      <a class="widget" style="--c:var(--p5)" href="#portafolio">
+        <div><strong>Mi portafolio</strong><span>Planillas, marcas y productos propios: lo que he hecho hasta ahora.</span></div>
+        <em id="meta-portafolio"></em><i aria-hidden="true">→</i>
+      </a>
+      <a class="widget" style="--c:var(--p4)" href="#vlogs">
+        <div><strong>Mis vlogs</strong><span>Viajes, salidas y lo que vivo en el día a día.</span></div>
+        <em id="meta-vlogs"></em><i aria-hidden="true">→</i>
+      </a>
     </div>
   </section>
 
@@ -426,6 +455,8 @@ function armarCategorias(productos, defs) {
   return grupos;
 }
 
+const meta = (id, texto) => { const el = document.getElementById("meta-" + id); if (el) el.textContent = texto; };
+
 async function iniciar() {
   const claves = Object.keys(ARCHIVOS);
   const [res, csv] = await Promise.all([
@@ -435,8 +466,16 @@ async function iniciar() {
   const D = Object.fromEntries(claves.map((k, i) => [k, res[i]]));
   if (D.vlogs && D.vlogs.canal) document.getElementById("canal").href = D.vlogs.canal;
   dibujarListas(D);
+  const cuantos = d => (d && d.items ? d.items.length : 0), np = cuantos(D.portafolio), nv = cuantos(D.vlogs);
+  meta("portafolio", np ? `${np} proyecto${np > 1 ? "s" : ""}` : "Próximamente");
+  meta("vlogs", nv ? `${nv} video${nv > 1 ? "s" : ""}` : "Próximamente");
   if (csv === null) document.getElementById("productos").innerHTML = MSG_ERROR;
-  else { catsListas = armarCategorias(productosDesdeCSV(csv), D.categorias); dibujarRecomendados(); }
+  else {
+    catsListas = armarCategorias(productosDesdeCSV(csv), D.categorias);
+    dibujarRecomendados();
+    const n = catsListas.reduce((t, c) => t + c.productos.length, 0), k = catsListas.filter(c => c.productos.length).length;
+    meta("recomendados", n ? `${n} productos · ${k} categorías` : "Próximamente");
+  }
 }
 
 // Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
