@@ -191,7 +191,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
 /* ==========================================================================
    4. CONFIGURACIÓN
    El contenido (proyectos, videos, productos, libros) ya NO está aquí:
-   vive en la carpeta datos/, un archivo por sección. Edita esos archivos.
+   vive en archivos .js en la raíz del repositorio, uno por sección. Edita esos archivos.
    ========================================================================== */
 const CONFIG = {
   linkedin: "https://linkedin.com",   // pega tu LinkedIn real
@@ -201,19 +201,19 @@ const CONFIG = {
 };
 
 const ARCHIVOS = {
-  portafolio:   ["datos/portafolio.js",   "DATOS_PORTAFOLIO"],
-  vlogs:        ["datos/vlogs.js",        "DATOS_VLOGS"],
-  libreria:     ["datos/libreria.js",     "DATOS_LIBRERIA"],
+  portafolio:   ["portafolio.js",   "DATOS_PORTAFOLIO"],
+  vlogs:        ["vlogs.js",        "DATOS_VLOGS"],
+  libreria:     ["libreria.js",     "DATOS_LIBRERIA"],
 };
 
 // Recomendados: un archivo por categoría. El orden de esta lista es el orden en la página.
 // Si un archivo falta o está vacío, esa categoría simplemente no se muestra.
 const RECOMENDADOS = [
-  ["datos/recomendados/escritorio.js",      "DATOS_ESCRITORIO"],
-  ["datos/recomendados/grabacion-audio.js", "DATOS_GRABACION"],
-  ["datos/recomendados/cocina.js",          "DATOS_COCINA"],
-  ["datos/recomendados/tecnologia.js",      "DATOS_TECNOLOGIA"],
-  ["datos/recomendados/construccion.js",    "DATOS_CONSTRUCCION"],
+  ["R_Escritorios.js",      "DATOS_ESCRITORIO"],
+  ["R_Gabacion_y_Audio.js", "DATOS_GRABACION"],
+  ["R_Cocina.js",          "DATOS_COCINA"],
+  ["R_Tecnologia.js",      "DATOS_TECNOLOGIA"],
+  ["R_Contruccion_y_Jardineria.js",    "DATOS_CONSTRUCCION"],
 ];
 
 /* ==========================================================================
