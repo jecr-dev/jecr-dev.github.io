@@ -195,14 +195,26 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
    ========================================================================== */
 const CONFIG = {
   linkedin: "https://linkedin.com",   // pega tu LinkedIn real
+  // Rotación de Recomendados: cuántos productos se ven a la vez y cada cuántos segundos cambian.
+  // Cada categoría puede cambiarlo en su propio archivo, o poner rotar: false para mostrar todos.
+  rotarRecomendados: { visibles: 2, cada: 10 },
 };
 
 const ARCHIVOS = {
   portafolio:   ["datos/portafolio.js",   "DATOS_PORTAFOLIO"],
   vlogs:        ["datos/vlogs.js",        "DATOS_VLOGS"],
-  recomendados: ["datos/recomendados.js", "DATOS_RECOMENDADOS"],
   libreria:     ["datos/libreria.js",     "DATOS_LIBRERIA"],
 };
+
+// Recomendados: un archivo por categoría. El orden de esta lista es el orden en la página.
+// Si un archivo falta o está vacío, esa categoría simplemente no se muestra.
+const RECOMENDADOS = [
+  ["datos/recomendados/escritorio.js",      "DATOS_ESCRITORIO"],
+  ["datos/recomendados/grabacion-audio.js", "DATOS_GRABACION"],
+  ["datos/recomendados/cocina.js",          "DATOS_COCINA"],
+  ["datos/recomendados/tecnologia.js",      "DATOS_TECNOLOGIA"],
+  ["datos/recomendados/construccion.js",    "DATOS_CONSTRUCCION"],
+];
 
 /* ==========================================================================
    5. MOTOR (no necesitas tocar nada de aquí hacia abajo)
@@ -297,11 +309,10 @@ function dibujarListas(D) {
   });
 }
 
-// Recomendados: un subtítulo por categoría; las vacías no se muestran
-function dibujarProductos(datos) {
+// Recomendados: un subtítulo por categoría; las vacías o ausentes no se muestran
+function dibujarProductos(cats) {
   const cont = document.getElementById("productos");
-  if (!datos) { cont.innerHTML = MSG_ERROR; return; }
-  const cats = (datos.categorias || []).filter(c => (c.productos || []).length);
+  cats = cats.filter(c => c && (c.productos || []).length);
   if (!cats.length) { cont.innerHTML = MSG_VACIO; return; }
   cont.innerHTML = "";
   cats.forEach(c => {
@@ -311,17 +322,21 @@ function dibujarProductos(datos) {
       + `<div class="grilla"></div>`
       + (c.listaCompleta ? `<p class="mas"><a href="${esc(c.listaCompleta)}" target="_blank" rel="sponsored noopener noreferrer">Ver la lista completa</a></p>` : "");
     cont.appendChild(sec);
-    rotar(sec.querySelector(".grilla"), c.productos, PLANTILLAS.productos, datos.rotar);
+    const cfg = c.rotar !== undefined ? c.rotar : CONFIG.rotarRecomendados;
+    rotar(sec.querySelector(".grilla"), c.productos, PLANTILLAS.productos, cfg);
   });
 }
 
 async function iniciar() {
   const claves = Object.keys(ARCHIVOS);
-  const res = await Promise.all(claves.map(k => cargar(ARCHIVOS[k])));
+  const [res, cats] = await Promise.all([
+    Promise.all(claves.map(k => cargar(ARCHIVOS[k]))),
+    Promise.all(RECOMENDADOS.map(r => cargar(r))),
+  ]);
   const D = Object.fromEntries(claves.map((k, i) => [k, res[i]]));
   if (D.vlogs && D.vlogs.canal) document.getElementById("canal").href = D.vlogs.canal;
   dibujarListas(D);
-  dibujarProductos(D.recomendados);
+  dibujarProductos(cats);
 }
 
 // Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
