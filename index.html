@@ -69,6 +69,7 @@ a.tarjeta:hover{border-color:var(--texto)}
 .tarjeta p{margin:0;color:var(--suave);font-size:.93rem}
 .etiqueta{font-size:.78rem;color:var(--p5);font-weight:500}
 .cta{margin-top:auto;padding-top:10px;font-size:.88rem;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.tarjeta img.prod{object-fit:contain;aspect-ratio:4/3;background:#fff;padding:12px;border-bottom:1px solid var(--borde)}
 .precio{font-weight:600;font-size:.95rem}
 
 h2.sub{font-size:1.2rem;margin:38px 0 4px}
@@ -196,25 +197,19 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
 const CONFIG = {
   linkedin: "https://linkedin.com",   // pega tu LinkedIn real
   // Rotación de Recomendados: cuántos productos se ven a la vez y cada cuántos segundos cambian.
-  // Cada categoría puede cambiarlo en su propio archivo, o poner rotar: false para mostrar todos.
-  rotarRecomendados: { visibles: 2, cada: 10 },
+  // Una categoría puede cambiarlo en categorias.js (campo rotar), o poner rotar: false para mostrar todos.
+  rotarRecomendados: { visibles: 4, cada: 10 },
+  // Tabla de productos (Excel guardado como CSV). También puedes pegar aquí el link de una hoja de Google publicada como CSV.
+  productosCSV: "productos.csv",
 };
 
 const ARCHIVOS = {
   portafolio:   ["portafolio.js",   "DATOS_PORTAFOLIO"],
   vlogs:        ["vlogs.js",        "DATOS_VLOGS"],
   libreria:     ["libreria.js",     "DATOS_LIBRERIA"],
+  categorias:   ["categorias.js",   "DATOS_CATEGORIAS"],
 };
 
-// Recomendados: un archivo por categoría. El orden de esta lista es el orden en la página.
-// Si un archivo falta o está vacío, esa categoría simplemente no se muestra.
-const RECOMENDADOS = [
-  ["R_Escritorios.js",      "DATOS_ESCRITORIO"],
-  ["R_Gabacion_y_Audio.js", "DATOS_GRABACION"],
-  ["R_Cocina.js",          "DATOS_COCINA"],
-  ["R_Tecnologia.js",      "DATOS_TECNOLOGIA"],
-  ["R_Contruccion_y_Jardineria.js",    "DATOS_CONSTRUCCION"],
-];
 
 /* ==========================================================================
    5. MOTOR (no necesitas tocar nada de aquí hacia abajo)
@@ -238,7 +233,7 @@ const PLANTILLAS = {
   },
 
   productos: i => tarjeta(i.link, `
-    ${i.imagen ? `<img loading="lazy" src="${esc(i.imagen)}" alt="${esc(i.titulo)}">` : ""}
+    ${i.imagen ? `<img class="prod" loading="lazy" src="${esc(i.imagen)}" alt="${esc(i.titulo)}" onerror="this.remove()">` : ""}
     <div class="cuerpo">
       ${i.etiqueta ? `<span class="etiqueta">${esc(i.etiqueta)}</span>` : ""}
       <h3>${esc(i.titulo)}</h3><p>${esc(i.descripcion)}</p>
@@ -327,16 +322,87 @@ function dibujarProductos(cats) {
   });
 }
 
+const sinTildes = t => String(t ?? "").normalize("NFD").replace(/[\u0300-\u036f\u00AD\u200B-\u200D\uFEFF]/g, "").toLowerCase().trim();
+
+// Lee el CSV (separado por coma, punto y coma o tabulación: se detecta solo)
+function leerCSV(texto) {
+  texto = texto.replace(/^\uFEFF/, "");
+  const primera = texto.split(/\r?\n/)[0] || "";
+  const cuenta = ch => primera.split(ch).length - 1;
+  const sep = [",", ";", "\t"].sort((a, b) => cuenta(b) - cuenta(a))[0];   // coma, punto y coma o tabulación
+  const filas = []; let fila = [], campo = "", comillas = false;
+  for (let i = 0; i < texto.length; i++) {
+    const c = texto[i];
+    if (comillas) {
+      if (c === '"') { if (texto[i + 1] === '"') { campo += '"'; i++; } else comillas = false; }
+      else campo += c;
+    } else if (c === '"') comillas = true;
+    else if (c === sep) { fila.push(campo); campo = ""; }
+    else if (c === "\n") { fila.push(campo); filas.push(fila); fila = []; campo = ""; }
+    else if (c !== "\r") campo += c;
+  }
+  fila.push(campo); filas.push(fila);
+  return filas.filter(f => f.some(x => x.trim()));
+}
+
+// Reconoce las columnas por su encabezado, sin importar el orden ni los acentos
+function productosDesdeCSV(texto) {
+  const filas = leerCSV(texto);
+  if (filas.length < 2) return [];
+  const campo = h => {
+    h = sinTildes(h);
+    if (/imag|foto/.test(h)) return "imagen";
+    if (/categ/.test(h)) return "categoria";
+    if (/link|afil|url|enlace/.test(h)) return "link";
+    if (/descrip/.test(h)) return "descripcion";
+    if (/precio/.test(h)) return "precio";
+    if (/nombre|titulo|product/.test(h)) return "titulo";
+    return null;
+  };
+  const cols = filas[0].map(campo);
+  const web = u => /^https?:\/\//i.test(u || "");
+  return filas.slice(1).map(f => {
+    const p = {};
+    cols.forEach((k, i) => { if (k && p[k] === undefined) p[k] = (f[i] || "").trim(); });
+    if (!web(p.imagen)) p.imagen = "";
+    return p;
+  }).filter(p => p.titulo && web(p.link));
+}
+
+// Descarga el CSV; acepta UTF-8 y, si no, el formato antiguo de Excel (para no romper las tildes)
+async function cargarCSV(ruta) {
+  try {
+    const r = await fetch(ruta, { cache: "no-cache" });
+    if (!r.ok) return null;
+    const buf = await r.arrayBuffer();
+    try { return new TextDecoder("utf-8", { fatal: true }).decode(buf); }
+    catch (e) { return new TextDecoder("windows-1252").decode(buf); }
+  } catch (e) { return null; }
+}
+
+// Agrupa por categoría: primero las de categorias.js (en ese orden), luego las nuevas que aparezcan en el Excel
+function armarCategorias(productos, defs) {
+  defs = Array.isArray(defs) ? defs : [];
+  const mapa = new Map(defs.map(d => [sinTildes(d.nombre), { ...d, productos: [] }]));
+  productos.forEach(p => {
+    const clave = sinTildes(p.categoria) || "otros";
+    if (!mapa.has(clave)) mapa.set(clave, { nombre: p.categoria || "Otros", texto: "", productos: [] });
+    mapa.get(clave).productos.push(p);
+  });
+  return [...mapa.values()];
+}
+
 async function iniciar() {
   const claves = Object.keys(ARCHIVOS);
-  const [res, cats] = await Promise.all([
+  const [res, csv] = await Promise.all([
     Promise.all(claves.map(k => cargar(ARCHIVOS[k]))),
-    Promise.all(RECOMENDADOS.map(r => cargar(r))),
+    cargarCSV(CONFIG.productosCSV),
   ]);
   const D = Object.fromEntries(claves.map((k, i) => [k, res[i]]));
   if (D.vlogs && D.vlogs.canal) document.getElementById("canal").href = D.vlogs.canal;
   dibujarListas(D);
-  dibujarProductos(cats);
+  if (csv === null) document.getElementById("productos").innerHTML = MSG_ERROR;
+  else dibujarProductos(armarCategorias(productosDesdeCSV(csv), D.categorias));
 }
 
 // Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
