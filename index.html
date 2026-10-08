@@ -14,6 +14,7 @@
 :root{
   --fondo:#fcfbfa;      /* beige claro */
   --tarjeta:#ffffff;
+  --panel:#f6f3ef;      /* fondo de cada recuadro de categoría */
   --texto:#161616;
   --suave:#6b6b68;
   --borde:#e6e3df;
@@ -76,6 +77,13 @@ h2.sub{font-size:1.2rem;margin:38px 0 4px}
 .grilla{transition:opacity .25s}
 .mas{margin:12px 0 0;font-size:.88rem;font-weight:600}
 .mas a{text-underline-offset:3px}
+.cat{background:var(--panel);border:1px solid var(--borde);border-radius:4px;padding:20px 20px 22px;margin-bottom:22px}
+.cat-cab{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px;text-decoration:none}
+.cat-cab h2{font:600 1.3rem var(--titulos);margin:0}
+.cat-cab span{font-size:.86rem;font-weight:600;color:var(--suave);text-decoration:underline;text-underline-offset:3px}
+.cat-cab:hover h2,.cat-cab:hover span{color:var(--acento)}
+.cat .subtexto{margin:4px 0 16px}
+.volver{display:inline-block;font-size:.9rem;font-weight:600;text-underline-offset:3px}
 .subtexto{color:var(--suave);font-size:.93rem;margin:0 0 14px;max-width:36em}
 .aviso{background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--acento);border-radius:4px;padding:16px 20px;color:var(--suave);font-size:.92rem;margin-bottom:26px}
 .vacio{color:var(--suave);border:1px dashed var(--borde);border-radius:4px;padding:26px;text-align:center;grid-column:1/-1}
@@ -196,7 +204,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
    ========================================================================== */
 const CONFIG = {
   linkedin: "https://linkedin.com",   // pega tu LinkedIn real
-  // Rotación de Recomendados: cuántos productos se ven a la vez y cada cuántos segundos cambian.
+  // Rotación de Recomendados: cuántos productos se ven a la vez por categoría (recomendado: de 3 a 5) y cada cuántos segundos cambian.
   // Una categoría puede cambiarlo en categorias.js (campo rotar), o poner rotar: false para mostrar todos.
   rotarRecomendados: { visibles: 4, cada: 10 },
   // Tabla de productos (Excel guardado como CSV). También puedes pegar aquí el link de una hoja de Google publicada como CSV.
@@ -276,8 +284,9 @@ const MSG_ERROR = `<div class="vacio">No pude cargar esta sección. Recarga la p
 function rotar(cont, items, plantilla, cfg) {
   const n = cfg && cfg.visibles, cada = ((cfg && cfg.cada) || 10) * 1000;
   const sinMovimiento = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!n || items.length <= n || sinMovimiento) { cont.innerHTML = items.map(plantilla).join(""); return; }
-  let inicio = 0, encima = false, pausaHasta = 0;
+  if (!n || items.length <= n) { cont.innerHTML = items.map(plantilla).join(""); return null; }
+  if (sinMovimiento) { cont.innerHTML = items.slice(0, n).map(plantilla).join(""); return null; }   // sin movimiento: se ven los primeros; "Ver todos" muestra el resto
+  let inicio = Math.floor(Math.random() * items.length), encima = false, pausaHasta = 0;   // cada visita parte en un punto distinto
   const pintar = () => { cont.innerHTML = Array.from({ length: n }, (_, k) => plantilla(items[(inicio + k) % items.length])).join(""); };
   cont.addEventListener("mouseenter", () => encima = true);
   cont.addEventListener("mouseleave", () => encima = false);
@@ -285,8 +294,8 @@ function rotar(cont, items, plantilla, cfg) {
   cont.addEventListener("focusout", () => encima = false);
   cont.addEventListener("touchstart", () => pausaHasta = Date.now() + 8000, { passive: true });
   pintar();
-  setInterval(() => {
-    if (encima || document.hidden || Date.now() < pausaHasta) return;
+  return setInterval(() => {
+    if (encima || document.hidden || !cont.offsetParent || Date.now() < pausaHasta) return;   // pausa si hay cursor encima o la sección no está visible
     inicio = (inicio + n) % items.length;
     cont.style.opacity = 0;
     setTimeout(() => { pintar(); cont.style.opacity = 1; }, 250);
@@ -304,22 +313,40 @@ function dibujarListas(D) {
   });
 }
 
-// Recomendados: un subtítulo por categoría; las vacías o ausentes no se muestran
-function dibujarProductos(cats) {
+// Recomendados: cada categoría es un recuadro con su título (que se puede pulsar) y unas pocas tarjetas que rotan.
+// Al pulsar el título se abre la vista con TODOS los productos de esa categoría (#recomendados/nombre-de-la-categoria).
+let catsListas = null;   // categorías ya armadas (null mientras cargan o si falló la carga)
+let vistaCat = "";       // "" = resumen; si no, el slug de la categoría abierta
+let timersProd = [];
+
+function dibujarRecomendados() {
   const cont = document.getElementById("productos");
-  cats = cats.filter(c => c && (c.productos || []).length);
+  timersProd.forEach(clearInterval); timersProd = [];
+  if (catsListas === null) return;
+  const cats = catsListas.filter(c => c.productos.length);
   if (!cats.length) { cont.innerHTML = MSG_VACIO; return; }
+  const abierta = cats.find(c => c.slug === vistaCat);
+  if (abierta) { vistaCompleta(cont, abierta); return; }
   cont.innerHTML = "";
   cats.forEach(c => {
-    const sec = document.createElement("div");
-    sec.innerHTML = `<h2 class="sub">${esc(c.nombre)}</h2>`
+    const sec = document.createElement("section");
+    sec.className = "cat";
+    sec.innerHTML = `<a class="cat-cab" href="#recomendados/${c.slug}"><h2>${esc(c.nombre)}</h2><span>Ver todos (${c.productos.length}) →</span></a>`
       + (c.texto ? `<p class="subtexto">${esc(c.texto)}</p>` : "")
-      + `<div class="grilla"></div>`
-      + (c.listaCompleta ? `<p class="mas"><a href="${esc(c.listaCompleta)}" target="_blank" rel="sponsored noopener noreferrer">Ver la lista completa</a></p>` : "");
+      + `<div class="grilla"></div>`;
     cont.appendChild(sec);
     const cfg = c.rotar !== undefined ? c.rotar : CONFIG.rotarRecomendados;
-    rotar(sec.querySelector(".grilla"), c.productos, PLANTILLAS.productos, cfg);
+    const t = rotar(sec.querySelector(".grilla"), c.productos, PLANTILLAS.productos, cfg);
+    if (t) timersProd.push(t);
   });
+}
+
+function vistaCompleta(cont, c) {
+  cont.innerHTML = `<a class="volver" href="#recomendados">← Todas las categorías</a>`
+    + `<h2 class="sub" style="margin-top:14px">${esc(c.nombre)} <span style="color:var(--suave);font-weight:400">(${c.productos.length})</span></h2>`
+    + (c.texto ? `<p class="subtexto">${esc(c.texto)}</p>` : "")
+    + `<div class="grilla">${c.productos.map(PLANTILLAS.productos).join("")}</div>`
+    + (c.listaCompleta ? `<p class="mas"><a href="${esc(c.listaCompleta)}" target="_blank" rel="sponsored noopener noreferrer">Ver mi lista completa en Mercado Libre</a></p>` : "");
 }
 
 const sinTildes = t => String(t ?? "").normalize("NFD").replace(/[\u0300-\u036f\u00AD\u200B-\u200D\uFEFF]/g, "").toLowerCase().trim();
@@ -366,7 +393,8 @@ function productosDesdeCSV(texto) {
     cols.forEach((k, i) => { if (k && p[k] === undefined) p[k] = (f[i] || "").trim(); });
     if (!web(p.imagen)) p.imagen = "";
     return p;
-  }).filter(p => p.titulo && web(p.link));
+  }).filter(p => p.titulo && web(p.link))
+    .filter((p, i, todos) => todos.findIndex(q => q.link === p.link) === i);   // si un link se repite, queda una sola tarjeta
 }
 
 // Descarga el CSV; acepta UTF-8 y, si no, el formato antiguo de Excel (para no romper las tildes)
@@ -380,16 +408,22 @@ async function cargarCSV(ruta) {
   } catch (e) { return null; }
 }
 
-// Agrupa por categoría: primero las de categorias.js (en ese orden), luego las nuevas que aparezcan en el Excel
+// Agrupa por categoría, en el orden de categorias.js. Lo que no calce con ninguna (o venga sin categoría) va a "Otros".
 function armarCategorias(productos, defs) {
   defs = Array.isArray(defs) ? defs : [];
-  const mapa = new Map(defs.map(d => [sinTildes(d.nombre), { ...d, productos: [] }]));
+  const slug = t => sinTildes(t).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  const grupos = defs.map(d => ({ ...d, slug: slug(d.nombre), productos: [], claves: [d.nombre, ...(d.alias || [])].map(sinTildes) }));
+  let otros = grupos.find(g => g.slug === "otros");
+  if (!otros) { otros = { nombre: "Otros", texto: "", slug: "otros", productos: [], claves: ["otros"] }; grupos.push(otros); }
+  const desconocidas = new Set();
   productos.forEach(p => {
-    const clave = sinTildes(p.categoria) || "otros";
-    if (!mapa.has(clave)) mapa.set(clave, { nombre: p.categoria || "Otros", texto: "", productos: [] });
-    mapa.get(clave).productos.push(p);
+    const clave = sinTildes(p.categoria);
+    const g = grupos.find(x => x.claves.includes(clave)) || otros;
+    if (clave && g === otros && !otros.claves.includes(clave)) desconocidas.add(p.categoria);
+    g.productos.push(p);
   });
-  return [...mapa.values()];
+  if (desconocidas.size) console.warn("Categorías que no están en categorias.js (van a 'Otros'):", [...desconocidas]);
+  return grupos;
 }
 
 async function iniciar() {
@@ -402,20 +436,21 @@ async function iniciar() {
   if (D.vlogs && D.vlogs.canal) document.getElementById("canal").href = D.vlogs.canal;
   dibujarListas(D);
   if (csv === null) document.getElementById("productos").innerHTML = MSG_ERROR;
-  else dibujarProductos(armarCategorias(productosDesdeCSV(csv), D.categorias));
+  else { catsListas = armarCategorias(productosDesdeCSV(csv), D.categorias); dibujarRecomendados(); }
 }
 
 // Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
 function mostrar(idPedido) {
   let id = idPedido;
   if (!id) { try { id = location.hash.slice(1); } catch (e) {} }
-  id = id || "inicio";
-  const existe = document.getElementById(id);
-  const destino = existe && existe.classList.contains("pagina") ? id : "inicio";
+  const [pag, sub] = (id || "inicio").split("/");   // "recomendados/cocina" = página + categoría abierta
+  const existe = document.getElementById(pag);
+  const destino = existe && existe.classList.contains("pagina") ? pag : "inicio";
   document.querySelectorAll(".pagina").forEach(p => p.classList.toggle("activa", p.id === destino));
   document.querySelectorAll("#menu a").forEach(a => a.classList.toggle("activo", a.getAttribute("href") === "#" + destino));
+  if (destino === "recomendados") { vistaCat = sub || ""; dibujarRecomendados(); }
   window.scrollTo(0, 0);
-  return destino;
+  return destino === "recomendados" && sub ? destino + "/" + sub : destino;
 }
 
 // Clic en cualquier enlace interno (#portafolio, #vlogs, etc.): cambia de sección directamente
