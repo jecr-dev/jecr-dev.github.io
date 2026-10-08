@@ -72,6 +72,9 @@ a.tarjeta:hover{border-color:var(--texto)}
 .precio{font-weight:600;font-size:.95rem}
 
 h2.sub{font-size:1.2rem;margin:38px 0 4px}
+.grilla{transition:opacity .25s}
+.mas{margin:12px 0 0;font-size:.88rem;font-weight:600}
+.mas a{text-underline-offset:3px}
 .subtexto{color:var(--suave);font-size:.93rem;margin:0 0 14px;max-width:36em}
 .aviso{background:var(--tarjeta);border:1px solid var(--borde);border-left:3px solid var(--acento);border-radius:4px;padding:16px 20px;color:var(--suave);font-size:.92rem;margin-bottom:26px}
 .vacio{color:var(--suave);border:1px dashed var(--borde);border-radius:4px;padding:26px;text-align:center;grid-column:1/-1}
@@ -186,56 +189,19 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-a
 
 <script>
 /* ==========================================================================
-   4. TU CONTENIDO — AQUÍ ES DONDE AGREGAS COSAS
-   Para agregar algo: copia una línea { ... }, pégala debajo y cambia los textos.
-   Para quitar algo: borra su línea. Cada línea termina con coma.
+   4. CONFIGURACIÓN
+   El contenido (proyectos, videos, productos, libros) ya NO está aquí:
+   vive en la carpeta datos/, un archivo por sección. Edita esos archivos.
    ========================================================================== */
 const CONFIG = {
-  linkedin: "https://linkedin.com",          // pega tu LinkedIn real
-  youtubeCanal: "https://youtube.com",       // pega el link de tu canal
+  linkedin: "https://linkedin.com",   // pega tu LinkedIn real
 };
 
-// Categorías de "Recomendados", en el orden en que aparecen. "texto" es la frase que va bajo el título.
-// Puedes agregar, quitar o renombrar (si renombras una, cambia también el campo categoria de sus productos).
-const CATEGORIAS = [
-  { nombre: "Escritorio", texto: "Lo que me hace sentir cómodo y más productivo cuando me siento frente a la pantalla." },
-  { nombre: "Grabación y audio", texto: "No soy ningún experto, pero esto es lo que uso para producir mi contenido audiovisual." },
-  { nombre: "Cocina", texto: "Me gusta cocinar, y estas cosas me hacen mucho más fácil meter las manos en la masa." },
-  { nombre: "Tecnología", texto: "Dispositivos que uso a diario y que me ayudan a estudiar, crear y mantenerme conectado." },
-  { nombre: "Construcción y jardinería", texto: "Una gran ayuda a la hora de ponerse el overol." },
-];
-
-const CONTENIDO = {
-
-  // PORTAFOLIO — link es opcional (déjalo "" si no tiene)
-  portafolio: [
-    { titulo: "Planilla de seguimiento en Excel", etiqueta: "Proyecto para una empresa", descripcion: "Programé una planilla para registrar ingresos de forma simple y ver qué trabajos estaban iniciados, en proceso o terminados.", link: "" },
-    { titulo: "Marca y redes para una estética profesional", etiqueta: "Marca personal", descripcion: "Construyo su identidad y sus redes sociales. Ya compré su dominio y su página web viene próximamente.", link: "" },
-    { titulo: "Productos propios", etiqueta: "Emprendimiento", descripcion: "Elaboro, envaso y presento mis propios productos, desde mermeladas con etiqueta y logo diseñados por mí, que se vendieron en dos días, hasta bombones de chocolate.", link: "" },
-  ],
-
-  // VLOGS — pega el link normal de YouTube; la miniatura se saca sola
-  vlogs: [
-    // { titulo: "Mi primer vlog", descripcion: "De qué trata.", link: "https://www.youtube.com/watch?v=XXXXXXXXXXX" },
-  ],
-
-  // PRODUCTOS AFILIADOS — link = tu enlace de afiliado de Mercado Libre
-  // imagen y precio son opcionales
-  // "categoria" debe ser exactamente una de las de CATEGORIAS (arriba). Las categorías sin productos no se muestran.
-  // Los 5 ejemplos de abajo son de relleno: reemplázalos por tus productos reales.
-  productos: [
-    { categoria: "Construcción y jardinería", titulo: "Herramienta de ejemplo", descripcion: "Describe para qué la usas.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-    { categoria: "Escritorio", titulo: "Accesorio de escritorio de ejemplo", descripcion: "Describe cómo mejora tu espacio de estudio.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-    { categoria: "Grabación y audio", titulo: "Equipo de grabación de ejemplo", descripcion: "Describe qué grabas con él.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-    { categoria: "Cocina", titulo: "Utensilio de cocina de ejemplo", descripcion: "Describe qué preparas con él.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-    { categoria: "Tecnología", titulo: "Dispositivo de ejemplo", descripcion: "Describe cómo lo usas a diario.", link: "https://mercadolibre.cl", imagen: "", precio: "" },
-  ],
-
-  // LIBROS — link puede ser Mercado Libre, Buscalibre, etc.
-  libros: [
-    // tienda es opcional: "Mercado Libre", "Buscalibre", etc. Aparece en el botón de la tarjeta.
-    // { titulo: "Nombre del libro", autor: "Autor", nota: "Por qué lo recomiendo.", link: "https://...", tienda: "Buscalibre" },
-  ],
+const ARCHIVOS = {
+  portafolio:   ["datos/portafolio.js",   "DATOS_PORTAFOLIO"],
+  vlogs:        ["datos/vlogs.js",        "DATOS_VLOGS"],
+  recomendados: ["datos/recomendados.js", "DATOS_RECOMENDADOS"],
+  libreria:     ["datos/libreria.js",     "DATOS_LIBRERIA"],
 };
 
 /* ==========================================================================
@@ -284,27 +250,78 @@ function tarjeta(link, html, externo = false, afiliado = false) {
   return `<a class="tarjeta" href="${esc(link)}" target="_blank" rel="${rel}">${html}</a>`;
 }
 
-// Recomendados: un subtítulo por categoría; las vacías no se muestran
-function dibujarProductos() {
-  const cont = document.getElementById("productos");
-  const items = CONTENIDO.productos || [];
-  const nombres = CATEGORIAS.map(c => c.nombre);
-  const grupos = [...CATEGORIAS, { nombre: "Otros", texto: "" }]
-    .map(c => [c, items.filter(i => c.nombre === "Otros" ? !nombres.includes(i.categoria) : i.categoria === c.nombre)])
-    .filter(([, lista]) => lista.length);
-  cont.innerHTML = grupos.length
-    ? grupos.map(([c, lista]) => `<h2 class="sub">${esc(c.nombre)}</h2>${c.texto ? `<p class="subtexto">${esc(c.texto)}</p>` : ""}<div class="grilla">${lista.map(PLANTILLAS.productos).join("")}</div>`).join("")
-    : `<div class="vacio">Pronto habrá contenido aquí.</div>`;
+// Carga un archivo de datos como <script>; si falla devuelve null
+function cargar([ruta, variable]) {
+  return new Promise(ok => {
+    const sc = document.createElement("script");
+    sc.src = ruta;
+    sc.onload = () => ok(window[variable] || null);
+    sc.onerror = () => ok(null);
+    document.head.appendChild(sc);
+  });
 }
 
-function dibujarListas() {
+const MSG_VACIO = `<div class="vacio">Pronto habrá contenido aquí.</div>`;
+const MSG_ERROR = `<div class="vacio">No pude cargar esta sección. Recarga la página.</div>`;
+
+// Muestra "visibles" ítems a la vez y los va cambiando cada "cada" segundos.
+// Sin "rotar" (o si caben todos) muestra todo. Se pausa con el cursor, el foco o el toque.
+function rotar(cont, items, plantilla, cfg) {
+  const n = cfg && cfg.visibles, cada = ((cfg && cfg.cada) || 10) * 1000;
+  const sinMovimiento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!n || items.length <= n || sinMovimiento) { cont.innerHTML = items.map(plantilla).join(""); return; }
+  let inicio = 0, encima = false, pausaHasta = 0;
+  const pintar = () => { cont.innerHTML = Array.from({ length: n }, (_, k) => plantilla(items[(inicio + k) % items.length])).join(""); };
+  cont.addEventListener("mouseenter", () => encima = true);
+  cont.addEventListener("mouseleave", () => encima = false);
+  cont.addEventListener("focusin", () => encima = true);
+  cont.addEventListener("focusout", () => encima = false);
+  cont.addEventListener("touchstart", () => pausaHasta = Date.now() + 8000, { passive: true });
+  pintar();
+  setInterval(() => {
+    if (encima || document.hidden || Date.now() < pausaHasta) return;
+    inicio = (inicio + n) % items.length;
+    cont.style.opacity = 0;
+    setTimeout(() => { pintar(); cont.style.opacity = 1; }, 250);
+  }, cada);
+}
+
+function dibujarListas(D) {
+  const mapa = { portafolio: D.portafolio, vlogs: D.vlogs, libros: D.libreria };
   document.querySelectorAll("[data-lista]").forEach(cont => {
-    const tipo = cont.dataset.lista;
-    const items = CONTENIDO[tipo] || [];
-    cont.innerHTML = items.length
-      ? items.map(PLANTILLAS[tipo]).join("")
-      : `<div class="vacio">Pronto habrá contenido aquí.</div>`;
+    const tipo = cont.dataset.lista, datos = mapa[tipo];
+    if (!datos) { cont.innerHTML = MSG_ERROR; return; }
+    const items = datos.items || [];
+    if (!items.length) { cont.innerHTML = MSG_VACIO; return; }
+    rotar(cont, items, PLANTILLAS[tipo], datos.rotar);
   });
+}
+
+// Recomendados: un subtítulo por categoría; las vacías no se muestran
+function dibujarProductos(datos) {
+  const cont = document.getElementById("productos");
+  if (!datos) { cont.innerHTML = MSG_ERROR; return; }
+  const cats = (datos.categorias || []).filter(c => (c.productos || []).length);
+  if (!cats.length) { cont.innerHTML = MSG_VACIO; return; }
+  cont.innerHTML = "";
+  cats.forEach(c => {
+    const sec = document.createElement("div");
+    sec.innerHTML = `<h2 class="sub">${esc(c.nombre)}</h2>`
+      + (c.texto ? `<p class="subtexto">${esc(c.texto)}</p>` : "")
+      + `<div class="grilla"></div>`
+      + (c.listaCompleta ? `<p class="mas"><a href="${esc(c.listaCompleta)}" target="_blank" rel="sponsored noopener noreferrer">Ver la lista completa</a></p>` : "");
+    cont.appendChild(sec);
+    rotar(sec.querySelector(".grilla"), c.productos, PLANTILLAS.productos, datos.rotar);
+  });
+}
+
+async function iniciar() {
+  const claves = Object.keys(ARCHIVOS);
+  const res = await Promise.all(claves.map(k => cargar(ARCHIVOS[k])));
+  const D = Object.fromEntries(claves.map((k, i) => [k, res[i]]));
+  if (D.vlogs && D.vlogs.canal) document.getElementById("canal").href = D.vlogs.canal;
+  dibujarListas(D);
+  dibujarProductos(D.recomendados);
 }
 
 // Navegación por # (sirve en GitHub Pages y permite compartir /#vlogs)
@@ -340,11 +357,9 @@ document.getElementById("copiar").addEventListener("click", async e => {
 });
 
 document.getElementById("linkedin").href = CONFIG.linkedin;
-document.getElementById("canal").href = CONFIG.youtubeCanal;
 document.getElementById("anio").textContent = new Date().getFullYear();
-dibujarListas();
-dibujarProductos();
 mostrar();
+iniciar();
 </script>
 </body>
 </html>
