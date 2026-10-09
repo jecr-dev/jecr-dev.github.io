@@ -299,6 +299,7 @@ const PLANTILLAS = {
 // Si hay link, la tarjeta completa es un enlace; "afiliado" agrega rel="sponsored"
 function tarjeta(link, html, externo = false, afiliado = false) {
   if (!link) return `<div class="tarjeta">${html}</div>`;
+  if (link.startsWith("#")) return `<a class="tarjeta" href="${esc(link)}">${html}</a>`;   // enlace interno: misma pestaña
   const rel = afiliado ? "sponsored noopener noreferrer" : "noopener noreferrer";
   return `<a class="tarjeta" href="${esc(link)}" target="_blank" rel="${rel}">${html}</a>`;
 }
