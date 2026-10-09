@@ -138,6 +138,32 @@ h2.sub{font-size:1.2rem;margin:38px 0 4px}
 footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-align:center;color:var(--suave);font-size:.82rem}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  
+/* Evitar desbordamientos horizontales */
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.contenedor,
+main,
+.pagina,
+.cat,
+.grilla,
+.tarjeta {
+  min-width: 0;
+}
+
+img {
+  max-width: 100%;
+}
 </style>
 </head>
 
