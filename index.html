@@ -77,6 +77,26 @@ button.btn{font:inherit;font-size:.92rem;font-weight:500;background:none;color:v
 
 /* Tarjetas */
 .grilla{display:grid;gap:16px;grid-template-columns:1fr}
+  
+/* Tablets: aprovechar el ancho disponible */
+@media (min-width: 768px) {
+  .contenedor {
+    padding-left: clamp(28px, 3vw, 44px);
+    padding-right: clamp(28px, 3vw, 44px);
+  }
+}
+
+/* PC y pantallas grandes: tres tarjetas por fila */
+@media (min-width: 1100px) {
+  .grilla {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Evita que la última tarjeta de Intereses ocupe toda la fila */
+  .intereses > :last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+}
 @media(min-width:600px){.grilla{grid-template-columns:1fr 1fr}}
 @media(min-width:600px){.intereses>:last-child:nth-child(odd){grid-column:1/-1}}
 .tarjeta{display:flex;flex-direction:column;background:var(--tarjeta);border:1px solid var(--borde);border-radius:4px;overflow:hidden;text-decoration:none}
