@@ -40,12 +40,7 @@
 body{margin:0;background:var(--fondo);color:var(--texto);font:400 1rem/1.65 var(--cuerpo)}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--p5);outline-offset:3px}
-.contenedor {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 56px) 48px;
-}
+.contenedor
 
 /* Franja de la paleta: el único toque de color grande */
 .franja{height:4px;background:linear-gradient(90deg,var(--p1),var(--p2),var(--p3),var(--p4),var(--p5))}
@@ -138,32 +133,6 @@ h2.sub{font-size:1.2rem;margin:38px 0 4px}
 footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--borde);text-align:center;color:var(--suave);font-size:.82rem}
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
-  
-/* Evitar desbordamientos horizontales */
-html {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-body {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-}
-
-.contenedor,
-main,
-.pagina,
-.cat,
-.grilla,
-.tarjeta {
-  min-width: 0;
-}
-
-img {
-  max-width: 100%;
-}
 </style>
 </head>
 
